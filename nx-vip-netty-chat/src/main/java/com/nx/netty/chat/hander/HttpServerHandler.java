@@ -19,6 +19,7 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
     }
 
     private String getPath() throws IOException {
+        // 创建properties对象，利用此对象加载指定配置文件，打印对应的值
         Properties properties = new Properties();
         // 使用ClassLoader加载properties配置文件生成对应的输入流
         InputStream in = this.getClass().getClassLoader().getResourceAsStream("config/config.properties");
@@ -39,10 +40,11 @@ public class HttpServerHandler extends SimpleChannelInboundHandler<FullHttpReque
     public void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
         //请求一个URl就相当于读取一个静态资源文件
         String uri = request.getUri();
-
+        // RandomAccessFile 动态读取文件数据，可以从指定位置读取，也可以写
         RandomAccessFile file = null;
         try {
             if(uri.equals("/ws")){
+                // fireChannelRead表示传递消息至下一个处理器
                 ctx.fireChannelRead(request.retain());
                 return;
             }else{

@@ -21,7 +21,7 @@ public class ChatServerChannelInitializer extends ChannelInitializer {
         //主要用于处理大数据流,比如一个1G大小的文件如果你直接传输肯定会撑暴jvm内存的 ,加上这个handler我们就不用考虑这个问题了
         pipeline.addLast(new ChunkedWriteHandler());//Inbound、Outbound
         //主要是将同一个http请求或响应的多个消息对象变成一个 fullHttpRequest或者FullHttpResponse完整的消息对象
-        // 几乎在netty中的编程，都会使用到此hanler
+        // 几乎在netty中的编程，都会使用到此hanler，最大内容长度64*1024字节
         pipeline.addLast(new HttpObjectAggregator(64 * 1024));//Inbound
 
         /**
